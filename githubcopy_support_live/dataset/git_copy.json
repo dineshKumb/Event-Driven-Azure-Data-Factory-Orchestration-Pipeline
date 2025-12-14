@@ -1,0 +1,23 @@
+{
+    "name": "git_copy",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "HttpServer",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "DelimitedText",
+        "typeProperties": {
+            "location": {
+                "type": "HttpServerLocation",
+                "relativeUrl": "dineshKumb/Azure-Data-Factory-Activities/refs/heads/main/Raw%20Dataset/Fact_Sales_2.csv"
+            },
+            "columnDelimiter": ",",
+            "escapeChar": "\\",
+            "firstRowAsHeader": true,
+            "quoteChar": "\""
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

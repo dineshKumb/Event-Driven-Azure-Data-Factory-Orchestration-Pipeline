@@ -1,0 +1,24 @@
+{
+    "name": "ManTrigger",
+    "properties": {
+        "annotations": [],
+        "runtimeState": "Started",
+        "pipelines": [
+            {
+                "pipelineReference": {
+                    "referenceName": "ProdPipeline",
+                    "type": "PipelineReference"
+                }
+            }
+        ],
+        "type": "BlobEventsTrigger",
+        "typeProperties": {
+            "blobPathBeginsWith": "/source/blobs/csvfiles/Fact_Sales_1.csv",
+            "ignoreEmptyBlobs": true,
+            "scope": "/subscriptions/338601ba-4613-4067-afea-47ac8a619cfd/resourceGroups/ADFcourseBeginner/providers/Microsoft.Storage/storageAccounts/adfbeginnercoursestorage",
+            "events": [
+                "Microsoft.Storage.BlobCreated"
+            ]
+        }
+    }
+}

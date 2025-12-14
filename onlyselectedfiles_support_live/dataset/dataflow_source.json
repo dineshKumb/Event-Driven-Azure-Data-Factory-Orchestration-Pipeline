@@ -1,0 +1,25 @@
+{
+    "name": "dataflow_source",
+    "properties": {
+        "linkedServiceName": {
+            "referenceName": "linkedserviceDL",
+            "type": "LinkedServiceReference"
+        },
+        "annotations": [],
+        "type": "DelimitedText",
+        "typeProperties": {
+            "location": {
+                "type": "AzureBlobFSLocation",
+                "fileName": "Fact_Sales_1.csv",
+                "folderPath": "csvfilename",
+                "fileSystem": "reporting"
+            },
+            "columnDelimiter": ",",
+            "escapeChar": "\\",
+            "firstRowAsHeader": true,
+            "quoteChar": "\""
+        },
+        "schema": []
+    },
+    "type": "Microsoft.DataFactory/factories/datasets"
+}

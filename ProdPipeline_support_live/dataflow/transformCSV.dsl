@@ -1,0 +1,53 @@
+source(output(
+		transaction_id as short,
+		transactional_date as timestamp,
+		product_id as string,
+		customer_id as short,
+		payment as string,
+		credit_card as long,
+		loyalty_card as boolean,
+		cost as double,
+		quantity as short,
+		price as double
+	),
+	allowSchemaDrift: true,
+	validateSchema: false,
+	ignoreNoFilesFound: false) ~> sourceCSV
+sourceCSV select(mapColumn(
+		transaction_id,
+		transactional_date,
+		product_id,
+		customer_id,
+		payment,
+		price
+	),
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> selectCols
+selectCols filter(customer_id != 12) ~> filterRows
+filterRows split(payment=='visa',
+	payment=='mastercard',
+	disjoint: false) ~> split1@(Visa, Mastercard, Amex)
+split1@Amex derive(payment = coalesce(payment,'N/A')) ~> derivedColumn
+split1@Visa aggregate(groupBy(customer_id),
+	price = max(price)) ~> aggregate
+aggregate sink(allowSchemaDrift: true,
+	validateSchema: false,
+	umask: 0022,
+	preCommands: [],
+	postCommands: [],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> sink
+split1@Mastercard sink(allowSchemaDrift: true,
+	validateSchema: false,
+	umask: 0022,
+	preCommands: [],
+	postCommands: [],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> mastercard
+derivedColumn sink(allowSchemaDrift: true,
+	validateSchema: false,
+	umask: 0022,
+	preCommands: [],
+	postCommands: [],
+	skipDuplicateMapInputs: true,
+	skipDuplicateMapOutputs: true) ~> sink1

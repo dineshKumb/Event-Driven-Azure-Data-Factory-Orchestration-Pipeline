@@ -1,0 +1,72 @@
+{
+    "name": "ProdPipeline",
+    "properties": {
+        "activities": [
+            {
+                "name": "ExecuteManagerPipeline",
+                "type": "ExecutePipeline",
+                "dependsOn": [],
+                "policy": {
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "pipeline": {
+                        "referenceName": "pipelinemanager",
+                        "type": "PipelineReference"
+                    },
+                    "waitOnCompletion": true
+                }
+            },
+            {
+                "name": "ExecuteGitPipeline",
+                "type": "ExecutePipeline",
+                "dependsOn": [
+                    {
+                        "activity": "ExecuteManagerPipeline",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "pipeline": {
+                        "referenceName": "githubcopy",
+                        "type": "PipelineReference"
+                    },
+                    "waitOnCompletion": true
+                }
+            },
+            {
+                "name": "ExecuteOnlySelectedFilePipeline",
+                "type": "ExecutePipeline",
+                "dependsOn": [
+                    {
+                        "activity": "ExecuteGitPipeline",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "pipeline": {
+                        "referenceName": "onlyselectedfiles",
+                        "type": "PipelineReference"
+                    },
+                    "waitOnCompletion": true
+                }
+            }
+        ],
+        "annotations": [],
+        "lastPublishTime": "2025-12-14T16:06:50Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}

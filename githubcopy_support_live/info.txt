@@ -1,0 +1,6 @@
+selected resource name:		githubcopy
+selected resource type:		pipeline
+factory name:			adf-beginner-course
+factory location:		eastus
+subscription id:		338601ba-4613-4067-afea-47ac8a619cfd
+time of download (UTC):		Sun, 14 Dec 2025 16:26:13 GMT
